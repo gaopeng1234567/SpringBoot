@@ -1,0 +1,7 @@
+logging:
+  level:
+    root: INFO
+    com.patrick: DEBUG
+log:
+  path: ./logs/springboot-aop
+
