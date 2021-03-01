@@ -33,5 +33,37 @@ public class JDKProxy implements InvocationHandler {
                 jdkProxy);
         jdkProxyDemo.fun_1();
         jdkProxyDemo.fun_2();
+
+//        --------聚合代理--------
+//        JDKProxy jdkProxy = new JDKProxy(new JdkProxyDemoImpl());
+//
+//        JdkProxyDemo jdkProxyDemo = (JdkProxyDemo) Proxy.newProxyInstance(
+//                JDKProxy.class.getClassLoader(),
+//                new Class[]{JdkProxyDemo.class},
+//                jdkProxy);
+
+
+//        LogProxy logProxy = new LogProxy(new JdkProxyDemoImpl());
+//        JdkProxyDemo jdkProxyDemo1 = (JdkProxyDemo) Proxy.newProxyInstance(
+//                JdkProxyDemo.class.getClassLoader(),
+//                new Class[]{JdkProxyDemo.class},
+//                logProxy);
+//        jdkProxyDemo1.fun_1();
+
+    }
+}
+
+class LogProxy implements InvocationHandler {
+
+    private Object target;
+
+    public LogProxy(Object target) {
+        this.target = target;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        System.out.println("**********进行日志处理**********");
+        return method.invoke(target, args);
     }
 }

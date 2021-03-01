@@ -16,4 +16,9 @@ public class JdkProxyDemoImpl implements JdkProxyDemo {
         System.out.println("**********我是fun_2**********");
 
     }
+
+    private void fun_3() {
+        System.out.println("**********我是fun_2**********");
+
+    }
 }
