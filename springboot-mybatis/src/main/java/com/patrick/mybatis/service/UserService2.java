@@ -1,5 +1,6 @@
 package com.patrick.mybatis.service;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.patrick.mybatis.mapper.UserMapper;
@@ -24,8 +25,11 @@ public class UserService2 {
      * @param id
      * @return
      */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public User findById(Integer id) {
-        return userMapper.selectById(id);
+        User user = userMapper.selectById(id);
+        System.out.println(JSON.toJSONString(user,true));
+        return user;
     }
 
     /**
@@ -88,7 +92,7 @@ public class UserService2 {
      * @param user
      * @return
      */
-    @Transactional(propagation = Propagation.NESTED)
+    @Transactional()
     public int insertUserExceptionNested(User user) {
         return userMapper.insert(user);
     }

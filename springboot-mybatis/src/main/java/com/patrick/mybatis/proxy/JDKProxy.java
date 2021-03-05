@@ -32,7 +32,7 @@ public class JDKProxy implements InvocationHandler {
                 new Class[]{JdkProxyDemo.class},
                 jdkProxy);
         jdkProxyDemo.fun_1();
-        jdkProxyDemo.fun_2();
+//        jdkProxyDemo.fun_2();
 
 //        --------聚合代理--------
 //        JDKProxy jdkProxy = new JDKProxy(new JdkProxyDemoImpl());

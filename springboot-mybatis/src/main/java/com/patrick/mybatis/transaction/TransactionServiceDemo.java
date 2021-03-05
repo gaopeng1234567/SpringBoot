@@ -29,20 +29,6 @@ public class TransactionServiceDemo {
     @Resource
     private UserService2 userService2;
 
-    @Transactional
-    public void tranFather_v10() {
-        userService.insertUser(User
-                .builder()
-                .name("父亲").id(11L)
-                .build());
-        userService.findById(11);
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("我执行完毕");
-    }
 
     @Transactional()
     public void tranFather_v0() {
@@ -82,6 +68,7 @@ public class TransactionServiceDemo {
     }
 
     //需求:  父方法调用子方法，子方法报错后进行回滚，父方法不回滚。
+    //思考: 如果去了tranFather_v4上面的Transactional 结果是啥？
     @Transactional()
     public void tranFather_v4() {
         userService.insertUser(User
@@ -141,6 +128,17 @@ public class TransactionServiceDemo {
 
     /**
      * propagation = Propagation.NESTED验证
+     * NESTED 和 NEW 区别
+     * REQUIRES_NEW是通过开启新的事务实现的，内部事务和外围事务是两个事务
+     * NESTED是嵌套事务，所以外围方法回滚之后，作为外围方法事务的子事务也会被回滚
+     * NESTED和REQUIRES_NEW都可以做到内部方法事务回滚而不影响外围方法事务
+     * --------------------------------------------------------------------------------------------------
+     * NESTED 和默认 REQUIRED 区别
+     * NESTED和REQUIRED修饰的内部方法都属于外围方法事务，如果外围方法抛出异常，
+     * 这两种方法的事务都会被回滚。但是REQUIRED是加入外围方法事务，所以和外围事务同属于一个事务，
+     * 一旦REQUIRED事务抛出异常被回滚，外围方法事务也将被回滚。而NESTED是外围方法的子事务，
+     * 有单独的保存点，所以NESTED方法抛出异常被回滚，不会影响到外围方法的事务。
+     *
      */
     @Transactional
     public void tranFather_v7() {
@@ -168,6 +166,26 @@ public class TransactionServiceDemo {
         userService.findByIdAsync(11);
         try {
             TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("我执行完毕");
+    }
+
+    /**
+     * 同一事物中是可以读到的。
+     * 由于mysql默认事物隔离配置的是REPEATABLE READ 可重复度
+     *
+     */
+    @Transactional
+    public void tranFather_v10() {
+        userService.insertUser(User
+                .builder()
+                .name("父亲").id(11L)
+                .build());
+        userService2.findById(11);
+        try {
+            TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

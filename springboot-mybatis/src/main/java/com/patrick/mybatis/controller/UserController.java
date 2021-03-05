@@ -34,7 +34,7 @@ public class UserController {
 
     @PostMapping("/insertUser")
     public void insertUser() throws Exception {
-        transactionServiceDemo.tranFather_v3();
+        transactionServiceDemo.tranFather_v0();
     }
 
 }
