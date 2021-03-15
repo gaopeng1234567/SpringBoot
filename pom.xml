@@ -15,6 +15,7 @@
         <module>springboot-aoplog</module>
         <module>springboot-configuration</module>
         <module>springboot-actuator</module>
+        <module>springboot-behavior</module>
     </modules>
 
     <parent>

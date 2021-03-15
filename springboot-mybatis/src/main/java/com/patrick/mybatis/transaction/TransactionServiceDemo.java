@@ -4,6 +4,7 @@ import com.patrick.mybatis.model.User;
 import com.patrick.mybatis.service.UserService1;
 import com.patrick.mybatis.service.UserService2;
 import org.springframework.aop.framework.AopContext;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
