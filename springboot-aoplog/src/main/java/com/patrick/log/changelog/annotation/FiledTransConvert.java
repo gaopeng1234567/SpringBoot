@@ -23,6 +23,11 @@ public @interface FiledTransConvert {
      */
     Class<? extends Enum> enumConverter() default DefaultEnum.class;
 
+    /**
+     * 值转换器
+     */
+    Class<? extends FieldEnumConverter> converter() default FieldEnumConverter.class;
+
     enum DefaultEnum implements BaseEnum<Integer> {
         ;
 

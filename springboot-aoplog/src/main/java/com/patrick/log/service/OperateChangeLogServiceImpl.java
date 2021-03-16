@@ -1,6 +1,8 @@
 package com.patrick.log.service;
 
 import com.patrick.log.changelog.enums.OperateTaskTypeEnum;
+import com.patrick.log.changelog.model.IgnoreFields;
+import com.patrick.log.changelog.model.TaskModel;
 import com.patrick.log.changelog.model.User;
 
 /**
@@ -10,6 +12,8 @@ import com.patrick.log.changelog.model.User;
  * 最簡單的事是堅持，最難的事還是堅持
  */
 public class OperateChangeLogServiceImpl implements OperateChangeLogService {
+
+    public static String[] ignoreFields = new String[]{IgnoreFields.UPDATE_TIME, IgnoreFields.ID};
 
     @Override
     public void asyncLog(String log, OperateTaskTypeEnum type) {

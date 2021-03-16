@@ -1,8 +1,8 @@
 package com.patrick.log.changelog.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.patrick.log.changelog.annotation.FiledTransConvert;
+import com.patrick.log.changelog.enums.OperateTaskTypeEnum;
+import lombok.*;
 
 import java.util.List;
 import java.util.Map;
@@ -13,15 +13,21 @@ import java.util.Map;
  * @Des 任务模型
  * 最簡單的事是堅持，最難的事還是堅持
  */
-@Builder
 @Setter
 @Getter
 public class TaskModel {
+    @FiledTransConvert(rename = "测试枚举值",enumConverter = OperateTaskTypeEnum.class)
     private String id;
+    @FiledTransConvert(rename = "任务名称")
     private String name;
+    @FiledTransConvert(rename = "任务描述")
     private String desc;
     private String[] tagList;
     private List<Map<String, String>> newDoc;
     private Map<String, String> mapString;
     private Map<String, OtherModel> mapOther;
+
+    public TaskModel() {
+
+    }
 }
