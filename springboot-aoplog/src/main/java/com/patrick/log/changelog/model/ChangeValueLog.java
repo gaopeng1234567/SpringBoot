@@ -19,8 +19,8 @@ public class ChangeValueLog {
     private String userId;
     private String userName;
     private String fieldName;
-    private Object oldValue;
-    private Object newValue;
+    private Object beforeValue;
+    private Object afterValue;
     private String type;
     private LocalDateTime execTime;
 

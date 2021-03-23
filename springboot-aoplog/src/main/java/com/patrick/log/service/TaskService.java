@@ -1,6 +1,6 @@
 package com.patrick.log.service;
 
-import com.patrick.log.changelog.model.TaskModel;
+import com.patrick.log.changelog.model.Task;
 
 /**
  * @author patrick
@@ -16,7 +16,7 @@ public class TaskService {
      *
      * @param taskModel
      */
-    public void createTask(TaskModel taskModel) {
+    public void createTask(Task taskModel) {
 
     }
 
@@ -25,7 +25,7 @@ public class TaskService {
      *
      * @param taskModel
      */
-    public void updateTask(TaskModel taskModel) {
+    public void updateTask(Task taskModel) {
 
     }
 
@@ -34,7 +34,7 @@ public class TaskService {
      *
      * @param taskModel
      */
-    public void deleteTask(TaskModel taskModel) {
+    public void deleteTask(Task taskModel) {
 
     }
 }

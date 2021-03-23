@@ -2,8 +2,9 @@ package com.patrick.log.service;
 
 import com.patrick.log.changelog.enums.OperateTaskTypeEnum;
 import com.patrick.log.changelog.model.IgnoreFields;
-import com.patrick.log.changelog.model.TaskModel;
+import com.patrick.log.changelog.model.Task;
 import com.patrick.log.changelog.model.User;
+import org.springframework.scheduling.annotation.Async;
 
 /**
  * @author patrick
@@ -15,13 +16,15 @@ public class OperateChangeLogServiceImpl implements OperateChangeLogService {
 
     public static String[] ignoreFields = new String[]{IgnoreFields.UPDATE_TIME, IgnoreFields.ID};
 
+
+
     @Override
-    public void asyncLog(String log, OperateTaskTypeEnum type) {
+    public void asyncLogCreate(Task task) {
 
     }
 
     @Override
-    public void asyncLog(String log, OperateTaskTypeEnum type, User user) {
+    public void asyncLogUpload(String log, OperateTaskTypeEnum type) {
 
     }
 
@@ -31,7 +34,7 @@ public class OperateChangeLogServiceImpl implements OperateChangeLogService {
     }
 
     @Override
-    public void asyncDeleteLog(String desc, Object obj) {
+    public void asyncDeleteLog(Task task) {
 
     }
 }

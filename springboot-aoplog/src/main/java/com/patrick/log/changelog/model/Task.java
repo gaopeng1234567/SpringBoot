@@ -15,7 +15,7 @@ import java.util.Map;
  */
 @Setter
 @Getter
-public class TaskModel {
+public class Task {
     @FiledTransConvert(rename = "测试枚举值",enumConverter = OperateTaskTypeEnum.class)
     private String id;
     @FiledTransConvert(rename = "任务名称")
@@ -27,7 +27,7 @@ public class TaskModel {
     private Map<String, String> mapString;
     private Map<String, OtherModel> mapOther;
 
-    public TaskModel() {
+    public Task() {
 
     }
 }

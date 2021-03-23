@@ -1,11 +1,13 @@
 package com.patrick.log.changelog.utils;
 
+import com.google.common.collect.Sets;
 import com.patrick.log.changelog.annotation.BaseEnum;
 import com.patrick.log.changelog.annotation.FieldEnumConverter;
 import com.patrick.log.changelog.annotation.FiledTransConvert;
 import com.patrick.log.changelog.enums.OperateTaskTypeEnum;
 import com.patrick.log.changelog.model.ChangeValueLog;
 import com.patrick.log.changelog.model.User;
+import org.assertj.core.util.Lists;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
@@ -65,40 +67,56 @@ public class FiledChangeValueUtils {
      * @return 对象值改变列表
      */
     public static List<ChangeValueLog> getFieldValueChangeRecords(Object newObj, Object old, OperateTaskTypeEnum type, Predicate<Field> predicate) {
-        Class<?> oldObjClass = old.getClass();
+        Class<?> beforeObjClass = newObj.getClass();
         List<ChangeValueLog> changeRecords = new ArrayList<>();
-        for (Field nf : getFields(newObj.getClass())) {
+        for (Field nf : getFields(old.getClass())) {
             if (predicate != null && !predicate.test(nf)) {
                 continue;
             }
-            // 默认属性名字
             String fieldName = nf.getName();
-            // 旧值不存在指定字段，直接跳过
-            Field oldObjFiled = getField(oldObjClass, fieldName, nf.getType());
+            Field oldObjFiled = getField(beforeObjClass, fieldName, nf.getType());
             if (oldObjFiled == null) {
                 continue;
             }
-            Object newValue = getFieldValue(nf, newObj);
-            Object oldValue = getFieldValue(oldObjFiled, old);
-            if (null != newValue && !Objects.equals(oldValue, newValue)) {
+            Object afterValue = getFieldValue(nf, newObj);
+            Object beforeValue = getFieldValue(oldObjFiled, old);
+            if (null != afterValue && !Objects.equals(beforeValue, afterValue)) {
+                afterValue = getDifferenceObject(afterValue, beforeValue);
                 // 判断字段值是否需要转换，如将枚举值'1'转换为有实际意义的字符串
                 FiledTransConvert convert = AnnotationUtils.getAnnotation(nf, FiledTransConvert.class);
                 convert = convert == null ? AnnotationUtils.getAnnotation(oldObjFiled, FiledTransConvert.class) : convert;
                 if (convert != null) {
-                    newValue = convertEnumValue(convert, newValue);
-                    oldValue = convertEnumValue(convert, oldValue);
+                    afterValue = convertEnumValue(convert, afterValue);
+                    beforeValue = convertEnumValue(convert, beforeValue);
                     // 判断属性名字是否需要转译
                     fieldName = StringUtils.hasLength(convert.rename()) ? convert.rename() : fieldName;
                 }
                 changeRecords.add(ChangeValueLog.builder()
                         .fieldName(fieldName)
-                        .newValue(newValue)
-                        .oldValue(oldValue).type(type.getOpName()).build()
+                        .afterValue(afterValue)
+                        .beforeValue(beforeValue).type(type.getOpName()).build()
                         //自动设置用户信息
                         .autoSetBaseInfo(User.builder().userId("1").userName("高鹏").build()));
             }
         }
         return changeRecords;
+    }
+
+    /**
+     * 求两个对象之间的差集 例如:元素属于A而且不属于B
+     *
+     * @param afterValue  新值
+     * @param beforeValue 老值
+     * @return 差集
+     */
+    private static Object getDifferenceObject(Object afterValue, Object beforeValue) {
+        if (afterValue instanceof List) {
+            Set afterSet = Sets.newHashSet((List) afterValue);
+            Set beforeSet = Sets.newHashSet(beforeValue == null ? Lists.emptyList() : (List) beforeValue);
+            Set set = Sets.difference(afterSet, beforeSet);
+            return set;
+        }
+        return afterValue;
     }
 
     /**

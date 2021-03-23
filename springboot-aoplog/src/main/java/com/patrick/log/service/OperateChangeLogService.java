@@ -1,6 +1,7 @@
 package com.patrick.log.service;
 
 import com.patrick.log.changelog.enums.OperateTaskTypeEnum;
+import com.patrick.log.changelog.model.Task;
 import com.patrick.log.changelog.model.User;
 
 /**
@@ -11,14 +12,21 @@ import com.patrick.log.changelog.model.User;
  */
 public interface OperateChangeLogService {
     /**
-     * 异步记录日志
+     * 异步记录操作日志，新增操作
      *
      * @param log  日志信息
      * @param type 日志类型
      */
-    void asyncLog(String log, OperateTaskTypeEnum type);
+    void asyncLogCreate(Task task);
 
-    void asyncLog(String log, OperateTaskTypeEnum type, User user);
+
+    /**
+     * 异步记录操作日志，上传文件操作
+     *
+     * @param log  日志信息
+     * @param type 日志类型
+     */
+    void asyncLogUpload(String log, OperateTaskTypeEnum type);
 
     /**
      * 异步记录数据修改的日志
@@ -35,5 +43,5 @@ public interface OperateChangeLogService {
      * @param desc 描述
      * @param obj  对象
      */
-    void asyncDeleteLog(String desc, Object obj);
+    void asyncDeleteLog(Task task);
 }
