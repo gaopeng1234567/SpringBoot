@@ -16,6 +16,7 @@
         <module>springboot-configuration</module>
         <module>springboot-actuator</module>
         <module>springboot-behavior</module>
+        <module>springboot-redis</module>
     </modules>
 
     <parent>
