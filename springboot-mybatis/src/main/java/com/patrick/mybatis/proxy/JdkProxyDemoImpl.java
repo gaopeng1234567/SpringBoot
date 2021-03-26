@@ -9,6 +9,7 @@ public class JdkProxyDemoImpl implements JdkProxyDemo {
     @Override
     public void fun_1() {
         System.out.println("**********我是fun_1**********");
+        fun_3();
     }
 
     @Override

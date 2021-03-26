@@ -22,6 +22,8 @@ public class JDKProxy implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         System.out.println("**********进行增强**********");
+        System.out.println(target);
+        System.out.println(this);
         return method.invoke(target, args);
     }
 
@@ -32,6 +34,7 @@ public class JDKProxy implements InvocationHandler {
                 new Class[]{JdkProxyDemo.class},
                 jdkProxy);
         jdkProxyDemo.fun_1();
+//        System.out.println(jdkProxyDemo);
 //        jdkProxyDemo.fun_2();
 
 //        --------聚合代理--------
