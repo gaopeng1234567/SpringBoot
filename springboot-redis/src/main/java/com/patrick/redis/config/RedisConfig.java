@@ -16,12 +16,14 @@ public class RedisConfig {
     }
 
     @Bean
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings("all")
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory, RedisSerializer fastJson2JsonRedisSerializer) {
-        StringRedisTemplate template = new StringRedisTemplate(factory);
+        RedisTemplate template = new StringRedisTemplate(factory);
 
         template.setValueSerializer(fastJson2JsonRedisSerializer);
-
+        //设置hash 序列化
+        template.setHashKeySerializer(fastJson2JsonRedisSerializer);
+        template.setHashValueSerializer(fastJson2JsonRedisSerializer);
         template.afterPropertiesSet();
         return template;
     }

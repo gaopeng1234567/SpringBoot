@@ -14,27 +14,27 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RedisServiceTest {
+public class SetRedisServiceTest {
     @Autowired
-    private RedisService redisService;
+    private SetRedisService redisService;
 
     @Test
     public void fun_1() {
-        redisService.setSingleValueRedis();
+        redisService.luckDrawSetRedisMethed();
     }
 
     @Test
     public void fun_2() {
-        redisService.setMultiValueRedis();
+        redisService.giveTheThumbsUpSetRedisMethod();
     }
 
     @Test
     public void fun_3() {
-        redisService.setObjectValueRedis();
+//        redisService.setObjectValueRedis();
     }
 
     @Test
     public void fun_4() {
-        redisService.readArticleCountRedis();
+//        redisService.readArticleCountRedis();
     }
 }

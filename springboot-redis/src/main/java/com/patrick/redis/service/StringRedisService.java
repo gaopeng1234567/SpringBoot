@@ -16,7 +16,7 @@ import java.util.Map;
  * 最簡單的事是堅持，最難的事還是堅持
  */
 @Service
-public class RedisService {
+public class StringRedisService {
     @Resource
     private RedisTemplate redisTemplate;
 

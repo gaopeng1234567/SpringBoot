@@ -1,7 +1,9 @@
 package com.patrick.redis.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -12,6 +14,8 @@ import java.io.Serializable;
  * 最簡單的事是堅持，最難的事還是堅持
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class User implements Serializable {
     /**
