@@ -1,5 +1,35 @@
 spring:
+  profiles:
+    active: sentinel-redis
+server:
+  port: 8080
+
+---
+spring:
+  config:
+    activate:
+      on-profile: single-redis
   redis:
     port: 6379
     password:
     host: 10.211.55.5
+
+---
+spring:
+  config:
+    activate:
+      on-profile: sentinel-redis
+  redis:
+    sentinel:
+      master: mymaster
+      nodes: 10.211.55.5:26379,10.211.55.5:26380,10.211.55.5:26381
+    jedis:
+      pool:
+        #最大连接数
+        max-active: 1024
+        #最大阻塞等待时间(负数表示没限制)
+        max-wait: 20000
+        #最大空闲
+        max-idle: 200
+        #最小空闲
+        min-idle: 10
