@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: sentinel-redis
+    active: redis-cluster
 server:
   port: 8080
 
@@ -33,3 +33,22 @@ spring:
         max-idle: 200
         #最小空闲
         min-idle: 10
+
+---
+spring:
+  config:
+    activate:
+      on-profile: redis-cluster
+  redis:
+    cluster:
+      nodes: 10.211.55.4:8001,10.211.55.5:8002,10.211.55.6:8003,10.211.55.4:8004,10.211.55.5:8005,10.211.55.6:8006
+    password: patrick
+    database: 0
+    timeout: 5000
+    lettuce:
+      pool:
+        max‐idle: 50
+        min‐idle: 10
+        max‐active: 100
+        max‐wait: 1000
+
