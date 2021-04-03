@@ -1,13 +1,14 @@
 package com.patrick.redis.service;
 
-import com.patrick.redis.model.ProductSku;
 import com.patrick.redis.model.User;
+import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -25,6 +26,7 @@ public class SetRedisService {
     private static final String ThumbsUp = "dianzan";
     @Resource
     private RedisTemplate redisTemplate;
+    //    ***********************************应用场景***********************************
 
     /**
      * 实现抽奖 功能
@@ -110,5 +112,74 @@ public class SetRedisService {
      */
     public void aggregateOpsSetRedisMethod() {
 
+    }
+
+    //    ***********************************API使用***********************************
+    // 批量插入元素，自动创建集合，返回集合长度
+    public Long add(String key, String... values) {
+        return redisTemplate.opsForSet().add(key, values);
+    }
+
+    // 获取集合中的全部元素，集合不存在返回空集合
+    public Set<String> members(String key) {
+        return redisTemplate.opsForSet().members(key);
+    }
+
+    // 随机获取集合中的指定数量的元素，集合不存在返回null
+    public void pop(String key) {
+        redisTemplate.opsForSet().pop(key);
+    }
+
+    // 随机获取集合中的指定数量的元素，集合不存在返回空集合
+    public List<String> pop2(String key, Long nums) {
+        return redisTemplate.opsForSet().pop(key, nums);
+    }
+
+    // 判断集合中是否包含指定元素，集合不存在也返回false
+    public Boolean isMember(String key, String value) {
+        return redisTemplate.opsForSet().isMember(key, value);
+    }
+
+    // 移除集合中的指定元素集，返回移除数量，集合不存在则返回0
+    public Long remove(String key, String... values) {
+        return redisTemplate.opsForSet().remove(key, (Object) values);
+    }
+
+    // 随机获取集合中的一个元素，但是元素不会被移除，集合为空返回null
+    public void randomMember(String key) {
+        redisTemplate.opsForSet().randomMember(key);
+    }
+
+    // 求两个集合的交集
+    public Set<String> intersect(String key1, String key2) {
+        return redisTemplate.opsForSet().intersect(key1, key2);
+    }
+
+    // 求两个集合的交集，并将结果存储在一个新key之中
+    public Long intersectAndStore(String key1, String key2, String newKey) {
+        return redisTemplate.opsForSet().intersectAndStore(key1, key2, newKey);
+    }
+
+    // 求两个集合的差集
+    public Set<String> difference(String key1, String key2) {
+        return redisTemplate.opsForSet().difference(key1, key2);
+    }
+
+    // 求两个集合的并集
+    public Set<String> union(String key1, String key2) {
+        return redisTemplate.opsForSet().union(key1, key2);
+    }
+
+    // 从集合中获取指定数量的随机元素，并保证元素不重复
+    public Set<String> distinctRandomMembers(String key, Long nums) {
+        return redisTemplate.opsForSet().distinctRandomMembers(key, nums);
+    }
+
+    // 遍历Set集合
+    public void scan(String key) throws IOException {
+        ScanOptions scanOptions = ScanOptions.scanOptions().build();
+        try (Cursor<String> cursor = redisTemplate.opsForSet().scan(key, scanOptions)) {
+            cursor.forEachRemaining(System.out::println);
+        }
     }
 }
