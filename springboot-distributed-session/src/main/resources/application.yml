@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/demo?serverTimezone=UTC&useSSL=false&autoReconnect=true&tinyInt1isBit=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: nABxzwVdd9Ziahhcq3Ik
+    initialization-mode: never #执行sql脚本
+  #    schema: classpath:sql/schema.sql
+
+  redis:
+    port: 6379
+    password:
+    host: 127.0.0.1
+#  session:
+#    store-type: redis
+# 自定义redis键值
+redis:
+  key:
+    prefix:
+      otpCode: "member:otpCode:" #动态校验码前缀
+    expire:
+      otpCode: 60 #动态校验码过期时间
+
+#登录拦截验证
+member:
+  auth:
+    shouldSkipUrls:
+      - /sso/**
+      - /home/**
+#jwt config
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: mall-member-secret #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24)
+  tokenHead: Bearer #JWT负载中拿到开头
